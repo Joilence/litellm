@@ -594,8 +594,8 @@ def cleanup_router_config_variables():
     prisma_client = None
 
 
-async def proxy_shutdown_event():
-    global prisma_client, master_key, user_custom_auth, user_custom_key_generate
+async def proxy_shutdown_event() -> None:
+    global prisma_client, master_key, user_custom_auth, user_custom_key_generate, db_writer_client
     verbose_proxy_logger.info("Shutting down LiteLLM Proxy Server")
     if prisma_client:
         verbose_proxy_logger.debug("Disconnecting from Prisma")
@@ -607,7 +607,7 @@ async def proxy_shutdown_event():
     await jwt_handler.close()
 
     if db_writer_client is not None:
-        await db_writer_client.close()
+        await db_writer_client.close()  # type: ignore[misc]
 
     # flush remaining langfuse logs
     if "langfuse" in litellm.success_callback:
@@ -651,7 +651,7 @@ async def _initialize_shared_aiohttp_session():
 
 
 @asynccontextmanager
-async def proxy_startup_event(app: FastAPI):
+async def proxy_startup_event(app: FastAPI) -> AsyncGenerator[None, None]:
     global prisma_client, master_key, use_background_health_checks, llm_router, llm_model_list, general_settings, proxy_budget_rescheduler_min_time, proxy_budget_rescheduler_max_time, litellm_proxy_admin_name, db_writer_client, store_model_in_db, premium_user, _license_check, proxy_batch_polling_interval, shared_aiohttp_session
     import json
 
@@ -781,7 +781,7 @@ async def proxy_startup_event(app: FastAPI):
         except Exception as e:
             verbose_proxy_logger.error(f"Error closing shared aiohttp session: {e}")
 
-    await proxy_shutdown_event()
+    await proxy_shutdown_event()  # type: ignore[misc]
 
 
 app = FastAPI(
@@ -791,7 +791,7 @@ app = FastAPI(
     description=_description,
     version=version,
     root_path=server_root_path,  # check if user passed root path, FastAPI defaults this value to ""
-    lifespan=proxy_startup_event,
+    lifespan=proxy_startup_event,  # type: ignore[arg-type]
 )
 
 vertex_live_passthrough_vertex_base = VertexBase()
@@ -1147,7 +1147,7 @@ last_model_cost_map_reload = None
 
 
 ### DB WRITER ###
-db_writer_client: Optional[AsyncHTTPHandler] = None
+db_writer_client: Optional["AsyncHTTPHandler"] = None  # type: ignore[assignment]
 ### logger ###
 
 
