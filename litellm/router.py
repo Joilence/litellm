@@ -1177,8 +1177,30 @@ class Router:
 
     ### COMPLETION, EMBEDDING, IMG GENERATION FUNCTIONS
 
+    # fmt: off
+
+    @overload
     def completion(
-        self, model: str, messages: List[Dict[str, str]], **kwargs
+        self, model: str, messages: List[Dict[str, str]], stream: Literal[True], **kwargs
+    ) -> CustomStreamWrapper:
+        ...
+
+    @overload
+    def completion(
+        self, model: str, messages: List[Dict[str, str]], stream: Literal[False] = False, **kwargs
+    ) -> ModelResponse:
+        ...
+
+    @overload
+    def completion(
+        self, model: str, messages: List[Dict[str, str]], stream: bool = False, **kwargs
+    ) -> Union[ModelResponse, CustomStreamWrapper]:
+        ...
+
+    # fmt: on
+
+    def completion(
+        self, model: str, messages: List[Dict[str, str]], stream: bool = False, **kwargs
     ) -> Union[ModelResponse, CustomStreamWrapper]:
         """
         Example usage:
@@ -1188,6 +1210,7 @@ class Router:
             verbose_router_logger.debug(f"router.completion(model={model},..)")
             kwargs["model"] = model
             kwargs["messages"] = messages
+            kwargs["stream"] = stream
             kwargs["original_function"] = self._completion
             self._update_kwargs_before_fallbacks(model=model, kwargs=kwargs)
 
@@ -1196,8 +1219,30 @@ class Router:
         except Exception as e:
             raise e
 
+    # fmt: off
+
+    @overload
     def _completion(
-        self, model: str, messages: List[Dict[str, str]], **kwargs
+        self, model: str, messages: List[Dict[str, str]], stream: Literal[True], **kwargs
+    ) -> CustomStreamWrapper:
+        ...
+
+    @overload
+    def _completion(
+        self, model: str, messages: List[Dict[str, str]], stream: Literal[False] = False, **kwargs
+    ) -> ModelResponse:
+        ...
+
+    @overload
+    def _completion(
+        self, model: str, messages: List[Dict[str, str]], stream: bool = False, **kwargs
+    ) -> Union[ModelResponse, CustomStreamWrapper]:
+        ...
+
+    # fmt: on
+
+    def _completion(
+        self, model: str, messages: List[Dict[str, str]], stream: bool = False, **kwargs
     ) -> Union[ModelResponse, CustomStreamWrapper]:
         model_name = None
         try:
@@ -1280,8 +1325,8 @@ class Router:
 
     @overload
     async def acompletion(
-        self, model: str, messages: List[AllMessageValues], stream: Union[Literal[True], Literal[False]] = False, **kwargs
-    ) -> Union[CustomStreamWrapper, ModelResponse]: 
+        self, model: str, messages: List[AllMessageValues], stream: bool = False, **kwargs
+    ) -> Union[CustomStreamWrapper, ModelResponse]:
         ...
 
     # fmt: on

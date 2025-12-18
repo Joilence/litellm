@@ -238,6 +238,7 @@ from .types.utils import (
     all_litellm_params,
 )
 
+# isort: off
 from litellm.types.utils import ModelResponseStream
 from litellm.utils import (
     Choices,
@@ -249,6 +250,7 @@ from litellm.utils import (
     TextCompletionStreamWrapper,
     TranscriptionResponse,
 )
+# isort: on
 
 ####### ENVIRONMENT VARIABLES ###################
 openai_chat_completions = OpenAIChatCompletion()
@@ -983,6 +985,160 @@ def _drop_input_examples_from_tools(
             cleaned_tools.append(tool)
     return cleaned_tools
 
+
+# fmt: off
+
+@overload
+def completion(
+    model: str,
+    messages: List = [],
+    timeout: Optional[Union[float, str, httpx.Timeout]] = None,
+    temperature: Optional[float] = None,
+    top_p: Optional[float] = None,
+    n: Optional[int] = None,
+    *,
+    stream: Literal[True],
+    stream_options: Optional[dict] = None,
+    stop=None,
+    max_completion_tokens: Optional[int] = None,
+    max_tokens: Optional[int] = None,
+    modalities: Optional[List] = None,
+    prediction: Optional[dict] = None,
+    audio: Optional[dict] = None,
+    presence_penalty: Optional[float] = None,
+    frequency_penalty: Optional[float] = None,
+    logit_bias: Optional[dict] = None,
+    user: Optional[str] = None,
+    reasoning_effort: Optional[
+        Literal["none", "minimal", "low", "medium", "high", "xhigh", "default"]
+    ] = None,
+    verbosity: Optional[Literal["low", "medium", "high"]] = None,
+    response_format: Optional[Union[dict, Type[BaseModel]]] = None,
+    seed: Optional[int] = None,
+    tools: Optional[List] = None,
+    tool_choice: Optional[Union[str, dict]] = None,
+    logprobs: Optional[bool] = None,
+    top_logprobs: Optional[int] = None,
+    parallel_tool_calls: Optional[bool] = None,
+    web_search_options: Optional[dict] = None,
+    deployment_id=None,
+    extra_headers: Optional[dict] = None,
+    safety_identifier: Optional[str] = None,
+    service_tier: Optional[str] = None,
+    functions: Optional[List] = None,
+    function_call: Optional[str] = None,
+    base_url: Optional[str] = None,
+    api_version: Optional[str] = None,
+    api_key: Optional[str] = None,
+    model_list: Optional[list] = None,
+    thinking: Optional[dict] = None,
+    shared_session: Optional["ClientSession"] = None,
+    **kwargs,
+) -> CustomStreamWrapper:
+    ...
+
+
+@overload
+def completion(
+    model: str,
+    messages: List = [],
+    timeout: Optional[Union[float, str, httpx.Timeout]] = None,
+    temperature: Optional[float] = None,
+    top_p: Optional[float] = None,
+    n: Optional[int] = None,
+    *,
+    stream: Literal[False] = False,
+    stream_options: Optional[dict] = None,
+    stop=None,
+    max_completion_tokens: Optional[int] = None,
+    max_tokens: Optional[int] = None,
+    modalities: Optional[List] = None,
+    prediction: Optional[dict] = None,
+    audio: Optional[dict] = None,
+    presence_penalty: Optional[float] = None,
+    frequency_penalty: Optional[float] = None,
+    logit_bias: Optional[dict] = None,
+    user: Optional[str] = None,
+    reasoning_effort: Optional[
+        Literal["none", "minimal", "low", "medium", "high", "xhigh", "default"]
+    ] = None,
+    verbosity: Optional[Literal["low", "medium", "high"]] = None,
+    response_format: Optional[Union[dict, Type[BaseModel]]] = None,
+    seed: Optional[int] = None,
+    tools: Optional[List] = None,
+    tool_choice: Optional[Union[str, dict]] = None,
+    logprobs: Optional[bool] = None,
+    top_logprobs: Optional[int] = None,
+    parallel_tool_calls: Optional[bool] = None,
+    web_search_options: Optional[dict] = None,
+    deployment_id=None,
+    extra_headers: Optional[dict] = None,
+    safety_identifier: Optional[str] = None,
+    service_tier: Optional[str] = None,
+    functions: Optional[List] = None,
+    function_call: Optional[str] = None,
+    base_url: Optional[str] = None,
+    api_version: Optional[str] = None,
+    api_key: Optional[str] = None,
+    model_list: Optional[list] = None,
+    thinking: Optional[dict] = None,
+    shared_session: Optional["ClientSession"] = None,
+    **kwargs,
+) -> ModelResponse:
+    ...
+
+
+@overload
+def completion(
+    model: str,
+    messages: List = [],
+    timeout: Optional[Union[float, str, httpx.Timeout]] = None,
+    temperature: Optional[float] = None,
+    top_p: Optional[float] = None,
+    n: Optional[int] = None,
+    *,
+    stream: Optional[bool] = None,
+    stream_options: Optional[dict] = None,
+    stop=None,
+    max_completion_tokens: Optional[int] = None,
+    max_tokens: Optional[int] = None,
+    modalities: Optional[List] = None,
+    prediction: Optional[dict] = None,
+    audio: Optional[dict] = None,
+    presence_penalty: Optional[float] = None,
+    frequency_penalty: Optional[float] = None,
+    logit_bias: Optional[dict] = None,
+    user: Optional[str] = None,
+    reasoning_effort: Optional[
+        Literal["none", "minimal", "low", "medium", "high", "xhigh", "default"]
+    ] = None,
+    verbosity: Optional[Literal["low", "medium", "high"]] = None,
+    response_format: Optional[Union[dict, Type[BaseModel]]] = None,
+    seed: Optional[int] = None,
+    tools: Optional[List] = None,
+    tool_choice: Optional[Union[str, dict]] = None,
+    logprobs: Optional[bool] = None,
+    top_logprobs: Optional[int] = None,
+    parallel_tool_calls: Optional[bool] = None,
+    web_search_options: Optional[dict] = None,
+    deployment_id=None,
+    extra_headers: Optional[dict] = None,
+    safety_identifier: Optional[str] = None,
+    service_tier: Optional[str] = None,
+    functions: Optional[List] = None,
+    function_call: Optional[str] = None,
+    base_url: Optional[str] = None,
+    api_version: Optional[str] = None,
+    api_key: Optional[str] = None,
+    model_list: Optional[list] = None,
+    thinking: Optional[dict] = None,
+    shared_session: Optional["ClientSession"] = None,
+    **kwargs,
+) -> Union[ModelResponse, CustomStreamWrapper]:
+    ...
+
+
+# fmt: on
 
 @tracer.wrap()
 @client
@@ -6901,6 +7057,7 @@ def _get_encoding():
     global _encoding_cache
     if _encoding_cache is None:
         import sys
+
         # Access via module to trigger __getattr__ if not cached
         _encoding_cache = sys.modules[__name__].encoding
     return _encoding_cache
