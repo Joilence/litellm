@@ -1246,6 +1246,7 @@ class Router:
     ) -> Union[ModelResponse, CustomStreamWrapper]:
         model_name = None
         try:
+            kwargs["stream"] = stream
             # pick the one that is available (lowest TPM/RPM)
             deployment = self.get_available_deployment(
                 model=model,
